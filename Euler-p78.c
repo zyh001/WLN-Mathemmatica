@@ -11,18 +11,22 @@ int partitions[100000]={0};
 
 int main(int argc, char **argv)
 {
+   int i;
+   double elapsed;
+   struct timespec start, end;
 
    clock_gettime(CLOCK_MONOTONIC, &start);
-
+	
    i=0;
 
    while(partition(i++)!=0);
-
+	
    clock_gettime(CLOCK_MONOTONIC, &end);
 
    elapsed=(end.tv_sec-start.tv_sec)+(double)(end.tv_nsec-start.tv_nsec)/1000000000;
 
-   printf("%d\n", i-1);                                                      
+   printf("%d\n", i-1);
+
    printf("Elapsed time: %.9lf seconds\n", elapsed);
 
    return 0;
@@ -50,26 +54,26 @@ int partition(int n)
    while(n-pentag>=0)
    {
       res+=partition(n-pentag);
-
+      
       i=-i;
       pentag=(3*i*i-i)/2;
       res+=partition(n-pentag);
-
+      
       i=-i;
       i++;
       pentag=(3*i*i-i)/2;
       res-=partition(n-pentag);
-
+      
       i=-i;
       pentag=(3*i*i-i)/2;
       res-=partition(n-pentag);
-
+      
       i=-i;
       i++;
       pentag=(3*i*i-i)/2;
    }
-
+   
    partitions[n]=res%N;
-
+   
    return res%N;
 }
